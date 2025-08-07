@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徽章生成器</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-award-fill me-2 fs-3"></i>
+                <span class="fw-bold">徽章生成器</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-house-fill me-1"></i>首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#colorExamplesSection"><i class="bi bi-palette-fill me-1"></i>配色方案</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                            <i class="bi bi-info-circle-fill me-1"></i>关于
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主横幅 -->
+    <div class="bg-gradient-primary text-white text-center py-5 mb-4">
+        <div class="container">
+            <h1 class="display-4 fw-bold"><i class="bi bi-award-fill me-2"></i>徽章生成器</h1>
+            <p class="lead">为您的网站创建漂亮的徽章</p>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="container py-4">
+        <div class="row g-4">
+            <!-- 左侧设置面板 -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-sliders me-2"></i>生成设置</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="badge-form">
+                            <div class="mb-3">
+                                <label for="leftText" class="form-label">第一部分文本</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-type"></i></span>
+                                    <input type="text" class="form-control" id="leftText" placeholder="例如：版本">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rightText" class="form-label">第二部分文本</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-type-bold"></i></span>
+                                    <input type="text" class="form-control" id="rightText" placeholder="例如：v1.0.0">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="linkUrl" class="form-label">跳转链接</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                                    <input type="text" class="form-control" id="linkUrl" placeholder="例如：https://example.com">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="colorScheme" class="form-label">配色方案</label>
+                                <select class="form-select" id="colorScheme">
+                                    <option value="blue">蓝配色</option>
+                                    <option value="purple">紫红配色</option>
+                                    <option value="green">绿色配色</option>
+                                    <option value="orange">橙色配色</option>
+                                    <option value="pink">粉红配色</option>
+                                    <option value="cyan">青绿配色</option>
+                                    <option value="yellow">黄色配色</option>
+                                    <option value="red">红色配色</option>
+                                    <option value="indigo">靛蓝配色</option>
+                                    <option value="grayblue">灰蓝配色</option>
+                                    <option value="graypurple">灰紫配色</option>
+                                    <option value="graygreen">灰绿配色</option>
+                                    <option value="graypink">灰粉配色</option>
+                                    <option value="grayorange">灰橙配色</option>
+                                    <option value="grayyellow">灰黄配色</option>
+                                    <option value="grayred">灰红配色</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="customColorCheck">
+                                <label class="form-check-label" for="customColorCheck">使用自定义颜色</label>
+                            </div>
+                            <div id="customColorSection" class="mb-3 d-none">
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <label for="leftColor" class="form-label">左侧颜色</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-palette"></i></span>
+                                            <input type="color" class="form-control form-control-color w-100" id="leftColor" value="#555555">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="rightColor" class="form-label">右侧颜色</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-palette-fill"></i></span>
+                                            <input type="color" class="form-control form-control-color w-100" id="rightColor" value="#007bff">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="badgeStyle" class="form-label">徽章样式</label>
+                                <select class="form-select" id="badgeStyle">
+                                    <option value="flat">扁平 (flat)</option>
+                                    <option value="flat-square">方形 (flat-square)</option>
+                                    <option value="plastic">塑料 (plastic)</option>
+                                    <option value="for-the-badge">醒目 (for-the-badge)</option>
+                                    <option value="social">社交 (social)</option>
+                                </select>
+                            </div>
+                            <button type="button" id="generateBtn" class="btn btn-primary w-100 btn-lg">
+                                <i class="bi bi-magic me-2"></i>生成徽章
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧预览面板 -->
+            <div class="col-lg-8">
+                <!-- 预览卡片 -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-eye-fill me-2"></i>徽章预览</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="previewArea" class="p-4 mb-4 rounded d-flex flex-column justify-content-center align-items-center bg-light border border-2 border-dashed">
+                            <div class="text-center py-5 empty-state">
+                                <i class="bi bi-emoji-smile display-1 text-muted"></i>
+                                <p class="text-muted mt-3 mb-0">欢迎使用徽章生成器</p>
+                                <p class="text-muted">填写左侧表单，生成您的专属徽章</p>
+                            </div>
+                            <img id="badgePreview" class="d-none my-4" src="" alt="徽章预览">
+                        </div>
+                        <div id="codeArea" class="d-none">
+                            <div class="mb-3">
+                                <label class="form-label d-flex align-items-center">
+                                    <i class="bi bi-markdown me-2 text-primary"></i>Markdown 代码
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" id="markdownCode" class="form-control font-monospace" readonly>
+                                    <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('markdownCode')">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label d-flex align-items-center">
+                                    <i class="bi bi-code-slash me-2 text-success"></i>HTML 代码
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" id="htmlCode" class="form-control font-monospace" readonly>
+                                    <button class="btn btn-outline-success" type="button" onclick="copyToClipboard('htmlCode')">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label d-flex align-items-center">
+                                    <i class="bi bi-filetype-svg me-2 text-danger"></i>SVG 代码
+                                </label>
+                                <div class="input-group">
+                                    <textarea id="urlCode" class="form-control font-monospace" rows="3" readonly></textarea>
+                                    <button class="btn btn-outline-danger" type="button" onclick="copyToClipboard('urlCode')">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 配色示例卡片 -->
+                <div class="card shadow-sm" id="colorExamplesSection">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-palette-fill me-2"></i>配色示例</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="colorExamples">
+                            <!-- 配色示例将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关于模态框 -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-info-circle-fill me-2"></i>关于徽章生成器</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>徽章生成器是一个简单易用的工具，帮助您为网站、GitHub 仓库或其他项目创建漂亮的徽章。</p>
+                    <p>特点：</p>
+                    <ul>
+                        <li>多种预设配色方案</li>
+                        <li>自定义颜色选项</li>
+                        <li>多种徽章样式</li>
+                        <li>生成 Markdown、HTML 和 SVG 代码</li>
+                    </ul>
+                    <p class="mb-0">版本：1.0.0</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-1"><i class="bi bi-award-fill me-2"></i>徽章生成器</p>
+            <p class="small text-muted mb-0"><a href="https://blog.yuqwq.cn"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MS4yIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgNzEuMiAyNCIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48ZGVmcz48L2RlZnM+PGc+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjM1LjYiIGhlaWdodD0iMjQiIGZpbGw9IiM1NTU1NTUiIHJ4PSIwIiByeT0iMCIvPjxyZWN0IHg9IjM1LjYiIHk9IjAiIHdpZHRoPSIzNS42IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMDA3YmZmIiByeD0iMCIgcnk9IjAiLz48L2c+PHRleHQgeD0iMTcuOCIgeT0iMTciIGZvbnQtZmFtaWx5PSJEZWphVnUgU2FucyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5L2c6ICFPC90ZXh0Pjx0ZXh0IHg9IjUzLjQwMDAwMDAwMDAwMDAwNiIgeT0iMTciIGZvbnQtZmFtaWx5PSJEZWphVnUgU2FucyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+572R56uZPC90ZXh0Pjwvc3ZnPg==" alt="作者 网站"></a></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 自定义脚本 -->
+    <script src="script.js"></script>
+</body>
+</html>
